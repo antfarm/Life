@@ -8,11 +8,13 @@
 
 /* Begin PBXBuildFile section */
 		1470474E256FA6F400CBE075 /* LifeApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1470474D256FA6F400CBE075 /* LifeApp.swift */; };
-		14704750256FA6F400CBE075 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1470474F256FA6F400CBE075 /* ContentView.swift */; };
 		14704752256FA6F700CBE075 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 14704751256FA6F700CBE075 /* Assets.xcassets */; };
 		14704755256FA6F700CBE075 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 14704754256FA6F700CBE075 /* Preview Assets.xcassets */; };
 		14704760256FA6F800CBE075 /* LifeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1470475F256FA6F800CBE075 /* LifeTests.swift */; };
 		1470476B256FA6F800CBE075 /* LifeUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1470476A256FA6F800CBE075 /* LifeUITests.swift */; };
+		1470477F25727F6900CBE075 /* Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1470477E25727F6900CBE075 /* Util.swift */; };
+		14ED660925738DB700FFBBCB /* GameOfLife.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14ED660825738DB700FFBBCB /* GameOfLife.swift */; };
+		14ED661725738E8D00FFBBCB /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14ED661625738E8C00FFBBCB /* ContentView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -35,7 +37,6 @@
 /* Begin PBXFileReference section */
 		1470474A256FA6F400CBE075 /* Life.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Life.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1470474D256FA6F400CBE075 /* LifeApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LifeApp.swift; sourceTree = "<group>"; };
-		1470474F256FA6F400CBE075 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		14704751256FA6F700CBE075 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		14704754256FA6F700CBE075 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		14704756256FA6F700CBE075 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -45,6 +46,9 @@
 		14704766256FA6F800CBE075 /* LifeUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LifeUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1470476A256FA6F800CBE075 /* LifeUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LifeUITests.swift; sourceTree = "<group>"; };
 		1470476C256FA6F800CBE075 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		1470477E25727F6900CBE075 /* Util.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Util.swift; sourceTree = "<group>"; };
+		14ED660825738DB700FFBBCB /* GameOfLife.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameOfLife.swift; sourceTree = "<group>"; };
+		14ED661625738E8C00FFBBCB /* ContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -96,7 +100,9 @@
 			isa = PBXGroup;
 			children = (
 				1470474D256FA6F400CBE075 /* LifeApp.swift */,
-				1470474F256FA6F400CBE075 /* ContentView.swift */,
+				14ED661625738E8C00FFBBCB /* ContentView.swift */,
+				14ED660825738DB700FFBBCB /* GameOfLife.swift */,
+				1470477E25727F6900CBE075 /* Util.swift */,
 				14704751256FA6F700CBE075 /* Assets.xcassets */,
 				14704756256FA6F700CBE075 /* Info.plist */,
 				14704753256FA6F700CBE075 /* Preview Content */,
@@ -259,7 +265,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				14704750256FA6F400CBE075 /* ContentView.swift in Sources */,
+				14ED661725738E8D00FFBBCB /* ContentView.swift in Sources */,
+				1470477F25727F6900CBE075 /* Util.swift in Sources */,
+				14ED660925738DB700FFBBCB /* GameOfLife.swift in Sources */,
 				1470474E256FA6F400CBE075 /* LifeApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
