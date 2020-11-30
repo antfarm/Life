@@ -29,16 +29,19 @@ public enum CellState {
 }
 
 
-class GameOfLife: ObservableObject {
+class GameOfLife {
 
     let rows: Int!, columns: Int!
     
-    private var grid: [[CellState]]!
+    private(set) var grid: [[CellState]]!
     private var gridBuffer: [[CellState]]!
-        
-    private var looper: Util.Looper!
-    
+            
+    subscript(row: Int, column: Int) -> CellState {
+        get { return grid[row][column] }
+        set { grid[row][column] = newValue }
+    }
 
+    
     init(rows: Int, columns: Int) {
         
         self.rows = rows
@@ -46,14 +49,18 @@ class GameOfLife: ObservableObject {
 
         grid = Array(repeating: Array(repeating: .dead, count: columns), count: rows)
         gridBuffer = Array(repeating: Array(repeating: .dead, count: columns), count: rows)
-
-        looper = Util.Looper(loopTimeMillis: 500) {
-            for row in 0..<rows {
-                for column in 0..<columns {
-                    self.grid[row][column] = self.nextState(row: row, column: column)
-                }
+    }
+    
+    
+    func step() {
+        
+        for row in 0..<rows {
+            for column in 0..<columns {
+                gridBuffer[row][column] = self.nextState(row: row, column: column)
             }
         }
+        
+        grid = gridBuffer
     }
     
     
@@ -77,13 +84,12 @@ class GameOfLife: ObservableObject {
     private func numNeighborsAlive(row: Int, column: Int) -> Int {
         
         struct Neighborhood {
-            static let indices: [(Int, Int)] = [(-1, -1), (0, -1), (1, -1),
-                                                (-1,  0),          (1,  0),
-                                                (-1,  1), (0,  1), (1,  1)]
-
+            static let neighbors: [(Int, Int)] = [(-1, -1), (0, -1), (1, -1),
+                                                  (-1,  0),          (1,  0),
+                                                  (-1,  1), (0,  1), (1,  1)]
         }
         
-        let neighbors: [(Int, Int)] = Neighborhood.indices.map { (rowOffset, columnOffset) in
+        let neighbors: [(Int, Int)] = Neighborhood.neighbors.map { (rowOffset, columnOffset) in
             let r = (rows + row + rowOffset) % rows
             let c = (columns + column + columnOffset) % columns
             return (r, c)
@@ -93,26 +99,8 @@ class GameOfLife: ObservableObject {
             grid[row][column] == .alive
         }
         
+        print(aliveNeighbors.count)
+        
         return aliveNeighbors.count
-    }
-    
-    
-    subscript(row: Int, column: Int) -> CellState {
-        get {
-            return grid[row][column]
-        }
-        set {
-            grid[row][column] = newValue
-        }
-    }
-
-    
-    func start() {
-        looper.resume()
-    }
-    
-    
-    func stop() {
-        looper.pause()
     }
 }

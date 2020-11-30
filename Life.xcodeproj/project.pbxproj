@@ -15,6 +15,7 @@
 		1470477F25727F6900CBE075 /* Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1470477E25727F6900CBE075 /* Util.swift */; };
 		14ED660925738DB700FFBBCB /* GameOfLife.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14ED660825738DB700FFBBCB /* GameOfLife.swift */; };
 		14ED661725738E8D00FFBBCB /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14ED661625738E8C00FFBBCB /* ContentView.swift */; };
+		14ED66562574503800FFBBCB /* GameOfLifeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14ED66552574503800FFBBCB /* GameOfLifeViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,6 +50,7 @@
 		1470477E25727F6900CBE075 /* Util.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Util.swift; sourceTree = "<group>"; };
 		14ED660825738DB700FFBBCB /* GameOfLife.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameOfLife.swift; sourceTree = "<group>"; };
 		14ED661625738E8C00FFBBCB /* ContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		14ED66552574503800FFBBCB /* GameOfLifeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameOfLifeViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -101,6 +103,7 @@
 			children = (
 				1470474D256FA6F400CBE075 /* LifeApp.swift */,
 				14ED661625738E8C00FFBBCB /* ContentView.swift */,
+				14ED66552574503800FFBBCB /* GameOfLifeViewModel.swift */,
 				14ED660825738DB700FFBBCB /* GameOfLife.swift */,
 				1470477E25727F6900CBE075 /* Util.swift */,
 				14704751256FA6F700CBE075 /* Assets.xcassets */,
@@ -265,6 +268,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				14ED66562574503800FFBBCB /* GameOfLifeViewModel.swift in Sources */,
 				14ED661725738E8D00FFBBCB /* ContentView.swift in Sources */,
 				1470477F25727F6900CBE075 /* Util.swift in Sources */,
 				14ED660925738DB700FFBBCB /* GameOfLife.swift in Sources */,
