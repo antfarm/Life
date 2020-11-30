@@ -99,8 +99,6 @@ class GameOfLife {
             grid[row][column] == .alive
         }
         
-        print(aliveNeighbors.count)
-        
         return aliveNeighbors.count
     }
 }
