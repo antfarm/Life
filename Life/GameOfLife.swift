@@ -10,21 +10,17 @@ import Foundation
 
 public enum CellState {
     
-    case alive
+    case alive(age: Int)
     case dead
     
     var toggled: CellState {
 
         switch self {
-        case .alive:
+        case .alive(age: _):
             return .dead
         case .dead:
-            return .alive
+            return .alive(age: 0)
         }
-    }
-    
-    mutating func toggle() {
-        self = self.toggled
     }
 }
 
@@ -56,7 +52,7 @@ class GameOfLife {
         
         for row in 0..<rows {
             for column in 0..<columns {
-                gridBuffer[row][column] = self.nextState(row: row, column: column)
+                gridBuffer[row][column] = nextState(row: row, column: column)
             }
         }
         
@@ -69,12 +65,17 @@ class GameOfLife {
         let cellState = grid[row][column]
         let numAlive = numNeighborsAlive(row: row, column: column)
         
-        if cellState == .alive && [2, 3].contains(numAlive) {
-            return .alive
-        }
-        
-        if cellState == .dead && numAlive == 3 {
-            return .alive
+        switch cellState {
+        case .alive(age: let age):
+            
+            if [2, 3].contains(numAlive) {
+                return .alive(age: age + 1)
+            }
+        case .dead:
+            
+            if numAlive == 3 {
+                return .alive(age: 0)
+            }
         }
         
         return .dead
@@ -96,7 +97,10 @@ class GameOfLife {
         }
         
         let aliveNeighbors = neighbors.filter { (row, column) in
-            grid[row][column] == .alive
+            switch grid[row][column] {
+            case .alive(age: _): return true
+            case .dead: return false
+            }
         }
         
         return aliveNeighbors.count

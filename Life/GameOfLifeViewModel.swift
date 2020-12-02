@@ -11,8 +11,10 @@ import Combine
 
 class GameOfLifeViewModel: ObservableObject {
     
-    let rows = 16
-    let columns = 16
+    let rows = 50
+    let columns = 40
+    
+    let generationMillis = Double(100)
     
     private var looper: Util.Looper!
 
@@ -23,30 +25,27 @@ class GameOfLifeViewModel: ObservableObject {
     
     init() {
         game = GameOfLife(rows: rows, columns: columns)
+        grid = game.grid
         
-        randomize()
-        
-        looper = Util.Looper(loopTimeMillis: 200) {
+        looper = Util.Looper(loopTimeMillis: generationMillis) {
         
             self.game.step()
             self.grid = self.game.grid
-
         }
     }
     
     func setCell(row: Int, column: Int, state: CellState) {
         
         game[row, column] = state
-        
         grid = game.grid
     }
     
     
-    func setGrid(_ grid: [[CellState]]) {
+    private func setGrid(_ grid: [[CellState]]) {
         
         for row in 0..<rows {
             for column in 0..<columns {
-                self.game[row, column] = grid[row][column]
+                game[row, column] = grid[row][column]
             }
         }
 
@@ -93,7 +92,7 @@ class GameOfLifeViewModel: ObservableObject {
         
         for row in 0..<rows {
             for column in 0..<columns {
-                grid[row][column] = Int.random(in: 0...1) > 0 ? .alive : .dead
+                grid[row][column] = Int.random(in: 0...2) == 0 ? .alive(age: 0) : .dead
             }
         }
 
