@@ -11,13 +11,12 @@ import Combine
 
 class GameOfLifeViewModel: ObservableObject {
     
-    let rows = 50
-    let columns = 40
+    let rows = 80
+    let columns = 50
     
-    let generationMillis = Double(100)
+    let generationMillis = 200
     
     private var looper: Util.Looper!
-
     private var game: GameOfLife!
     
     @Published var grid: [[CellState]]!
@@ -26,30 +25,31 @@ class GameOfLifeViewModel: ObservableObject {
     init() {
         game = GameOfLife(rows: rows, columns: columns)
         grid = game.grid
-        
+
         looper = Util.Looper(loopTimeMillis: generationMillis) {
-        
-            self.game.step()
-            self.grid = self.game.grid
+            self.step()
         }
     }
     
+    
     func setCell(row: Int, column: Int, state: CellState) {
-        
         game[row, column] = state
         grid = game.grid
     }
     
     
-    private func setGrid(_ grid: [[CellState]]) {
-        
-        for row in 0..<rows {
-            for column in 0..<columns {
-                game[row, column] = grid[row][column]
-            }
-        }
+    func toggleCell(row: Int, column: Int) {
+        setCell(row: row, column: column, state: game[row, column].toggled)
+    }
 
-        self.grid = game.grid
+    
+    func start() {
+        looper.resume()
+    }
+    
+    
+    func stop() {
+        looper.pause()
     }
     
     
@@ -69,19 +69,19 @@ class GameOfLifeViewModel: ObservableObject {
     }
     
     
-    func start() {
-        looper.resume()
-    }
-    
-    
-    func stop() {
-        looper.pause()
-    }
-    
-    
-    
-    private func emptyGrid() -> [[CellState]] {
+    private func setGrid(_ grid: [[CellState]]) {
         
+        for row in 0..<rows {
+            for column in 0..<columns {
+                game[row, column] = grid[row][column]
+            }
+        }
+        
+        self.grid = game.grid
+    }
+    
+
+    private func emptyGrid() -> [[CellState]] {        
         return Array(repeating: Array(repeating: .dead, count: columns), count: rows)
     }
     

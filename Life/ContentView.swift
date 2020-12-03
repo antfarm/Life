@@ -7,21 +7,19 @@
 
 import SwiftUI
 
+
 struct ContentView: View {
     
     @ObservedObject var game = GameOfLifeViewModel()
     
     
     var body: some View {
-        // GameOfLifeView(game: $game)
         
         ZStack() {
             Color.black.edgesIgnoringSafeArea(.all)
             
             VStack() {
 
-                // GameOfLifeView(game: $game)
-                
                 VStack(spacing: 0) {
                     ForEach((0..<game.rows), id: \.self) { row in
                         
@@ -30,78 +28,68 @@ struct ContentView: View {
                                                                 
                                 let state = game.grid[row][column]
 
-                                // CellView(row: row, column: column, state: game.grid[row][column])
-
-                                switch state {
-                                case .alive(age: let age):
-                                    let opacity = Double(10 - min(age, 8)) / 10.0
-                                    
-                                    Circle()
-                                        .fill(Color.yellow)
-                                        .opacity(opacity)
-                                        .onTapGesture() {
-                                            game.setCell(row: row, column: column, state: game.grid[row][column].toggled)
-                                        }
-
-                                case .dead:
-                                    Rectangle()
-                                        .fill(Color.black)
-                                        .onTapGesture() {
-                                            game.setCell(row: row, column: column, state: state.toggled)
-                                        }
-                                }
+                                let opacity: Double = {
+                                    switch state {
+                                    case .alive(age: let age):
+                                        return Double(10 - min(age, 6)) / 10.0
+                                    case .dead:
+                                        return 1
+                                    }
+                                }()
+                                
+                                let color: Color = {
+                                    switch state {
+                                    case .alive:
+                                        return .yellow
+                                    case .dead:
+                                        return .black
+                                    }
+                                }()
+                                
+                                Circle()
+                                    .fill(color)
+                                    .opacity(opacity)
+                                    .onTapGesture() {
+                                        game.toggleCell(row: row, column: column)
+                                    }
                             }
                         }
-                        .padding(0)
                     }
                 }
                 
                 HStack() {
-                    Button(action: {
-                        game.start()
-                    }) {
-                        Text("RUN")
-                            .padding(20)
-                            .foregroundColor(Color.orange)
-                    }
-                    
-                    Button(action: {
-                        game.stop()
-                    }) {
-                        Text("STOP")
-                            .padding(20)
-                            .foregroundColor(Color.orange)
-                    }
-
-                    Button(action: {
-                        game.step()
-                    }) {
-                        Text("STEP")
-                            .padding(20)
-                            .foregroundColor(Color.orange)
-                    }
+                    Button("RUN") { game.start() }
+                    Button("STOP") { game.stop() }
+                    Button("STEP") { game.step() }
+                    Button("RAND") { game.randomize() }
+                    Button("CLEAR") { game.clear() }
                 }
-
-                HStack() {
-                    Button(action: {
-                        game.randomize()
-                    }) {
-                        Text("RANDOM")
-                            .padding(20)
-                            .foregroundColor(Color.orange)
-                    }
-                    
-                    Button(action: {
-                        game.clear()
-                    }) {
-                        Text("CLEAR")
-                            .padding(20)
-                            .foregroundColor(Color.orange)
-                    }
-                }
-
-            }.padding(0)
+                .padding(10)
+            }
         }
+    }
+}
+
+
+struct Button: View {
+
+    private let text: String
+    private let action: () -> ()
+    
+    init(_ text: String, action: @escaping () -> ()) {
+        self.text = text
+        self.action = action
+    }
+    
+    var body: some View {
+    
+        return SwiftUI.Button(action: {
+            action()
+        }, label: {
+            Text(text)
+                .padding(5)
+                .foregroundColor(Color.gray)
+        })
     }
 }
 

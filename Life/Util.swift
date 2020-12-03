@@ -123,12 +123,12 @@ extension Util {
         var onPause: Action? = nil
         var onResume: Action? = nil
 
-        fileprivate var loopTimeMillis: Double = 30
+        fileprivate var loopTimeMillis: Int = 30
 
         fileprivate var shouldLoop = false
 
         
-        init(loopTimeMillis: Double, action: @escaping Action) {
+        init(loopTimeMillis: Int, action: @escaping Action) {
             
             self.loopTimeMillis = loopTimeMillis
             self.action = action
@@ -169,7 +169,7 @@ extension Util {
                 self.action()
             }
             
-            let loopTime = loopTimeMillis / 1000.0
+            let loopTime = Double(loopTimeMillis) / 1000.0
             let delayTime = max(0, loopTime - duration)
             
             Util.Time.delayExecution(delayTime) { self.loop() }
