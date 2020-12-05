@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		145AE3B6257ADF7500039DCB /* GameOfLifeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 145AE3B5257ADF7500039DCB /* GameOfLifeView.swift */; };
 		1470474E256FA6F400CBE075 /* LifeApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1470474D256FA6F400CBE075 /* LifeApp.swift */; };
 		14704752256FA6F700CBE075 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 14704751256FA6F700CBE075 /* Assets.xcassets */; };
 		14704755256FA6F700CBE075 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 14704754256FA6F700CBE075 /* Preview Assets.xcassets */; };
@@ -36,6 +37,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		145AE3B5257ADF7500039DCB /* GameOfLifeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameOfLifeView.swift; sourceTree = "<group>"; };
 		1470474A256FA6F400CBE075 /* Life.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Life.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1470474D256FA6F400CBE075 /* LifeApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LifeApp.swift; sourceTree = "<group>"; };
 		14704751256FA6F700CBE075 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -103,6 +105,7 @@
 			children = (
 				1470474D256FA6F400CBE075 /* LifeApp.swift */,
 				14ED661625738E8C00FFBBCB /* ContentView.swift */,
+				145AE3B5257ADF7500039DCB /* GameOfLifeView.swift */,
 				14ED66552574503800FFBBCB /* GameOfLifeViewModel.swift */,
 				14ED660825738DB700FFBBCB /* GameOfLife.swift */,
 				1470477E25727F6900CBE075 /* Util.swift */,
@@ -273,6 +276,7 @@
 				1470477F25727F6900CBE075 /* Util.swift in Sources */,
 				14ED660925738DB700FFBBCB /* GameOfLife.swift in Sources */,
 				1470474E256FA6F400CBE075 /* LifeApp.swift in Sources */,
+				145AE3B6257ADF7500039DCB /* GameOfLifeView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
