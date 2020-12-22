@@ -30,17 +30,6 @@ class GameOfLifeViewModel: ObservableObject {
             self.step()
         }
     }
-    
-    
-    func setCell(row: Int, column: Int, state: CellState) {
-        game[row, column] = state
-        grid = game.grid
-    }
-    
-    
-    func toggleCell(row: Int, column: Int) {
-        setCell(row: row, column: column, state: game[row, column].toggled)
-    }
 
     
     func start() {
@@ -59,6 +48,11 @@ class GameOfLifeViewModel: ObservableObject {
     }
 
     
+    func toggleCell(row: Int, column: Int) {
+        setCell(row: row, column: column, state: game[row, column].toggled)
+    }
+
+    
     func clear() {
         setGrid(emptyGrid())
     }
@@ -66,6 +60,12 @@ class GameOfLifeViewModel: ObservableObject {
     
     func randomize() {
         setGrid(randomGrid())
+    }
+    
+    
+    private func setCell(row: Int, column: Int, state: CellState) {
+        game[row, column] = state
+        grid = game.grid
     }
     
     
