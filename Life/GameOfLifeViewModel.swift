@@ -9,6 +9,7 @@ import Foundation
 import SwiftUI
 import Combine
 
+
 class GameOfLifeViewModel: ObservableObject {
     
     let rows = 80
@@ -19,7 +20,7 @@ class GameOfLifeViewModel: ObservableObject {
     private var looper: Util.Looper!
     private var game: GameOfLife!
     
-    @Published var grid: [[CellState]]!
+    @Published var grid: [[GameOfLife.CellState]]!
     
     
     init() {
@@ -63,13 +64,13 @@ class GameOfLifeViewModel: ObservableObject {
     }
     
     
-    private func setCell(row: Int, column: Int, state: CellState) {
+    private func setCell(row: Int, column: Int, state: GameOfLife.CellState) {
         game[row, column] = state
         grid = game.grid
     }
     
     
-    private func setGrid(_ grid: [[CellState]]) {
+    private func setGrid(_ grid: [[GameOfLife.CellState]]) {
         
         for row in 0..<rows {
             for column in 0..<columns {
@@ -81,12 +82,12 @@ class GameOfLifeViewModel: ObservableObject {
     }
     
 
-    private func emptyGrid() -> [[CellState]] {        
+    private func emptyGrid() -> [[GameOfLife.CellState]] {
         return Array(repeating: Array(repeating: .dead, count: columns), count: rows)
     }
     
     
-    private func randomGrid() -> [[CellState]] {
+    private func randomGrid() -> [[GameOfLife.CellState]] {
         
         var grid = emptyGrid()
         

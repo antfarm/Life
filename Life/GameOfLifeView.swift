@@ -34,7 +34,7 @@ struct GameOfLifeView: View {
 
 struct CellView: View {
     
-    let state: CellState
+    let state: GameOfLife.CellState
     let onTap: () -> Void
     
     

@@ -8,24 +8,22 @@
 import Foundation
 
 
-public enum CellState {
-    
-    case alive(age: Int)
-    case dead
-    
-    var toggled: CellState {
+class GameOfLife {
 
-        switch self {
-        case .alive(age: _):
-            return .dead
-        case .dead:
-            return .alive(age: 0)
+    enum CellState {
+        
+        case alive(age: Int)
+        case dead
+        
+        var toggled: CellState {
+            switch self {
+            case .alive(age: _):
+                return .dead
+            case .dead:
+                return .alive(age: 0)
+            }
         }
     }
-}
-
-
-class GameOfLife {
 
     let rows: Int!, columns: Int!
     
