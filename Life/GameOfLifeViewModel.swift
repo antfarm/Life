@@ -14,7 +14,7 @@ class GameOfLifeViewModel: ObservableObject {
     let rows = 80
     let columns = 50
     
-    let generationMillis = 200
+    let generationMillis = 100
     
     private var looper: Util.Looper!
     private var game: GameOfLife!
