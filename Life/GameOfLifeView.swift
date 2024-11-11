@@ -8,6 +8,30 @@
 import SwiftUI
 
 
+struct GameOfLifeView: View {
+    
+    @ObservedObject var game: GameOfLifeViewModel
+    
+    
+    var body: some View {
+        
+        VStack(spacing: 0) {
+            ForEach((0..<game.rows), id: \.self) { row in
+                
+                HStack(spacing: 0) {
+                    ForEach((0..<game.columns), id: \.self) { column in
+                        
+                        CellView(state: game.grid[row][column]) {
+                            game.toggleCell(row: row, column: column)
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+
 struct CellView: View {
     
     let state: CellState
@@ -40,29 +64,5 @@ struct CellView: View {
             .onTapGesture() {
                 onTap()
             }
-    }
-}
-
-
-struct GameOfLifeView: View {
-    
-    @ObservedObject var game: GameOfLifeViewModel
-    
-    
-    var body: some View {
-        
-        VStack(spacing: 0) {
-            ForEach((0..<game.rows), id: \.self) { row in
-                
-                HStack(spacing: 0) {
-                    ForEach((0..<game.columns), id: \.self) { column in
-                        
-                        CellView(state: game.grid[row][column]) {
-                            game.toggleCell(row: row, column: column)
-                        }
-                    }
-                }
-            }
-        }
     }
 }
