@@ -10,7 +10,7 @@ import SwiftUI
 
 struct ContentView: View {
     
-    @ObservedObject var game = GameOfLifeViewModel()
+    @StateObject var game = GameOfLifeViewModel()
     
     
     var body: some View {

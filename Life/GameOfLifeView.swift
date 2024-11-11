@@ -10,16 +10,12 @@ import SwiftUI
 
 struct CellView: View {
     
-    var row: Int
-    var column: Int
-    
-    @ObservedObject var game: GameOfLifeViewModel
+    let state: CellState
+    let onTap: () -> Void
     
     
     var body: some View {
         
-        let state = game.grid[row][column]
-
         let opacity: Double = {
             switch state {
             case .alive(age: let age):
@@ -42,7 +38,7 @@ struct CellView: View {
             .fill(color)
             .opacity(opacity)
             .onTapGesture() {
-                game.toggleCell(row: row, column: column)
+                onTap()
             }
     }
 }
@@ -60,8 +56,10 @@ struct GameOfLifeView: View {
                 
                 HStack(spacing: 0) {
                     ForEach((0..<game.columns), id: \.self) { column in
-                                                        
-                        CellView(row: row, column: column, game: game)
+                        
+                        CellView(state: game.grid[row][column]) {
+                            game.toggleCell(row: row, column: column)
+                        }
                     }
                 }
             }
