@@ -93,7 +93,7 @@ class GameOfLifeViewModel: ObservableObject {
         
         for row in 0..<rows {
             for column in 0..<columns {
-                grid[row][column] = Int.random(in: 0...2) == 0 ? .alive(age: 0) : .dead
+                grid[row][column] = Int.random(in: 0...4) == 0 ? .alive(age: 0) : .dead
             }
         }
 
