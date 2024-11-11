@@ -55,12 +55,12 @@ class GameOfLifeViewModel: ObservableObject {
 
     
     func clear() {
-        setGrid(emptyGrid())
+        setCells(deadCells())
     }
     
     
     func randomize() {
-        setGrid(randomGrid())
+        setCells(randomCells())
     }
     
     
@@ -70,11 +70,11 @@ class GameOfLifeViewModel: ObservableObject {
     }
     
     
-    private func setGrid(_ grid: [[GameOfLife.CellState]]) {
+    private func setCells(_ cells: [[GameOfLife.CellState]]) {
         
         for row in 0..<rows {
             for column in 0..<columns {
-                game[row, column] = grid[row][column]
+                game[row, column] = cells[row][column]
             }
         }
         
@@ -82,21 +82,21 @@ class GameOfLifeViewModel: ObservableObject {
     }
     
 
-    private func emptyGrid() -> [[GameOfLife.CellState]] {
+    private func deadCells() -> [[GameOfLife.CellState]] {
         return Array(repeating: Array(repeating: .dead, count: columns), count: rows)
     }
     
     
-    private func randomGrid() -> [[GameOfLife.CellState]] {
+    private func randomCells() -> [[GameOfLife.CellState]] {
         
-        var grid = emptyGrid()
+        var cells = deadCells()
         
         for row in 0..<rows {
             for column in 0..<columns {
-                grid[row][column] = Int.random(in: 0...4) == 0 ? .alive(age: 0) : .dead
+                cells[row][column] = Int.random(in: 0...4) == 0 ? .alive(age: 0) : .dead
             }
         }
 
-        return grid
+        return cells
     }
 }
