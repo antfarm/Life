@@ -23,11 +23,11 @@ struct ContentView: View {
                 GameOfLifeView(game: game)
                 
                 HStack() {
-                    Button("RUN") { game.start() }
-                    Button("STOP") { game.stop() }
-                    Button("STEP") { game.step() }
-                    Button("RAND") { game.randomize() }
-                    Button("CLEAR") { game.clear() }
+                    Button("Run") { game.start() }
+                    Button("Stop") { game.stop() }
+                    Button("Step") { game.step() }
+                    Button("Random") { game.randomize() }
+                    Button("Clear") { game.clear() }
                 }
                 .padding(10)
             }
@@ -52,7 +52,8 @@ struct Button: View {
             action()
         }, label: {
             Text(text)
-                .padding(5)
+                .bold()
+                .padding(10)
                 .foregroundColor(Color.gray)
         })
     }
