@@ -20,12 +20,12 @@ class GameOfLifeViewModel: ObservableObject {
     private var looper: Util.Looper!
     private var game: GameOfLife!
     
-    @Published var grid: [[GameOfLife.CellState]]!
+    @Published var cells: [[GameOfLife.CellState]]!
     
     
     init() {
         game = GameOfLife(rows: rows, columns: columns)
-        grid = game.grid
+        cells = game.cells
 
         looper = Util.Looper(loopTimeMillis: generationMillis) {
             self.step()
@@ -45,7 +45,7 @@ class GameOfLifeViewModel: ObservableObject {
     
     func step() {
         game.step()
-        grid = game.grid
+        cells = game.cells
     }
 
     
@@ -66,7 +66,7 @@ class GameOfLifeViewModel: ObservableObject {
     
     private func setCell(row: Int, column: Int, state: GameOfLife.CellState) {
         game[row, column] = state
-        grid = game.grid
+        cells = game.cells
     }
     
     
@@ -78,7 +78,7 @@ class GameOfLifeViewModel: ObservableObject {
             }
         }
         
-        self.grid = game.grid
+        self.cells = game.cells
     }
     
 

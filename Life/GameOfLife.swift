@@ -27,12 +27,12 @@ class GameOfLife {
 
     let rows: Int!, columns: Int!
     
-    private(set) var grid: [[CellState]]!
-    private var gridBuffer: [[CellState]]!
+    private(set) var cells: [[CellState]]!
+    private var cellsBuffer: [[CellState]]!
             
     subscript(row: Int, column: Int) -> CellState {
-        get { return grid[row][column] }
-        set { grid[row][column] = newValue }
+        get { return cells[row][column] }
+        set { cells[row][column] = newValue }
     }
 
     
@@ -41,8 +41,8 @@ class GameOfLife {
         self.rows = rows
         self.columns = columns
 
-        grid = Array(repeating: Array(repeating: .dead, count: columns), count: rows)
-        gridBuffer = Array(repeating: Array(repeating: .dead, count: columns), count: rows)
+        cells = Array(repeating: Array(repeating: .dead, count: columns), count: rows)
+        cellsBuffer = Array(repeating: Array(repeating: .dead, count: columns), count: rows)
     }
     
     
@@ -50,17 +50,17 @@ class GameOfLife {
         
         for row in 0..<rows {
             for column in 0..<columns {
-                gridBuffer[row][column] = nextState(row: row, column: column)
+                cellsBuffer[row][column] = nextState(row: row, column: column)
             }
         }
         
-        grid = gridBuffer
+        cells = cellsBuffer
     }
     
     
     private func nextState(row: Int, column: Int) -> CellState {
         
-        let cellState = grid[row][column]
+        let cellState = cells[row][column]
         let numAlive = numNeighborsAlive(row: row, column: column)
         
         switch cellState {
@@ -95,7 +95,7 @@ class GameOfLife {
         }
         
         let aliveNeighbors = neighbors.filter { (row, column) in
-            switch grid[row][column] {
+            switch cells[row][column] {
             case .alive(age: _): return true
             case .dead: return false
             }

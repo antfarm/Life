@@ -21,7 +21,7 @@ struct GameOfLifeView: View {
                 HStack(spacing: 0) {
                     ForEach((0..<game.columns), id: \.self) { column in
                         
-                        CellView(state: game.grid[row][column]) {
+                        CellView(state: game.cells[row][column]) {
                             game.toggleCell(row: row, column: column)
                         }
                     }
