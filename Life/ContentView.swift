@@ -10,7 +10,7 @@ import SwiftUI
 
 struct ContentView: View {
     
-    @StateObject var game = GameOfLifeViewModel()
+    @StateObject var game: GameOfLifeViewModel
     
     
     var body: some View {
@@ -61,7 +61,18 @@ struct Button: View {
 
 
 struct ContentView_Previews: PreviewProvider {
+
     static var previews: some View {
-        ContentView()
+       
+        let game: GameOfLifeViewModel = {
+            let game = GameOfLifeViewModel()
+            game.randomize()
+            for _ in 0..<30 {
+                game.step()
+            }
+            return game
+        }()
+
+        ContentView(game: game)
     }
 }
