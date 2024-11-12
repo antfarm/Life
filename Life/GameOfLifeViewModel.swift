@@ -12,13 +12,13 @@ import Combine
 
 class GameOfLifeViewModel: ObservableObject {
     
-    private var model: GameOfLife
-    private var cancellables = Set<AnyCancellable>()
+    var columns: Int { model.columns }
+    var rows: Int { model.rows }
 
     @Published var cells: [[GameOfLife.CellState]]!
 
-    var columns: Int { model.columns }
-    var rows: Int { model.rows }
+    private var model: GameOfLife
+    private var cancellables = Set<AnyCancellable>()
 
     private var timer: AnyCancellable?
     private let updateInterval: TimeInterval = 0.2
