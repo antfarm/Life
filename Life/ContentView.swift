@@ -23,33 +23,36 @@ struct ContentView: View {
                 GameOfLifeView(game: game)
                 
                 HStack() {
-                    Button("Run") { game.handleEvent(event: .startButtonPressed) }
-                    Button("Stop") { game.handleEvent(event: .stopButtonPressed) }
-                    Button("Step") { game.handleEvent(event: .stepButtonPressed) }
-                    Button("Random") { game.handleEvent(event: .randomizeButtonPressed) }
-                    Button("Clear") { game.handleEvent(event: .clearButtonPressed) }
+                    Button("Run", .startButtonPressed)
+                    Button("Stop", .stopButtonPressed)
+                    Button("Step", .stepButtonPressed)
+                    Button("Random", .randomizeButtonPressed)
+                    Button("Clear", .clearButtonPressed)
                 }
                 .padding(10)
             }
         }
+        .environmentObject(game)
     }
 }
 
 
 struct Button: View {
 
-    private let text: String
-    private let action: () -> ()
+    @EnvironmentObject var game: GameOfLifeViewModel
     
-    init(_ text: String, action: @escaping () -> ()) {
+    private let text: String
+    private let event: GameOfLifeViewModel.Event
+    
+    init(_ text: String, _ event: GameOfLifeViewModel.Event) {
         self.text = text
-        self.action = action
+        self.event = event
     }
     
     var body: some View {
     
         return SwiftUI.Button(action: {
-            action()
+            game.handleEvent(event: event)
         }, label: {
             Text(text)
                 .bold()
