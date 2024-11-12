@@ -20,20 +20,39 @@ class GameOfLife: ObservableObject {
 
     @Published var cells: [[CellState]]!
     
-    private var cellsBuffer: [[CellState]]!
-
     
     init(columns: Int, rows: Int) {
         
         self.columns = columns
         self.rows = rows
         
-        func emptyGrid() -> [[CellState]] {
-            Array(repeating: Array(repeating: .dead, count: rows), count: columns)
+        cells = Array(repeating: Array(repeating: .dead, count: rows), count: columns)
+    }
+    
+    
+    func clearCells() {
+        
+        for column in 0..<columns {
+            for row in 0..<rows {
+                cells[column][row] = .dead
+            }
         }
+    }
+    
+    
+    func randomizeCells() {
 
-        cells = emptyGrid()
-        cellsBuffer = emptyGrid()
+        for column in 0..<columns {
+            for row in 0..<rows {
+                cells[column][row] = Int.random(in: 0...4) == 0 ? .alive(age: 0) : .dead
+            }
+        }
+    }
+    
+    
+    func toggleCell(column: Int, row: Int) {
+        
+        cells[column][row] = cells[column][row].toggled
     }
     
     
@@ -41,10 +60,9 @@ class GameOfLife: ObservableObject {
         
         func nextState(column: Int, row: Int) -> CellState {
             
-            let cellState = cells[column][row]
             let numAlive = numNeighborsAlive(column: column, row: row)
             
-            switch cellState {
+            switch cells[column][row] {
             case .alive(age: let age):
                 if [2, 3].contains(numAlive) {
                     return .alive(age: age + 1)
@@ -57,6 +75,8 @@ class GameOfLife: ObservableObject {
             
             return .dead
         }
+        
+        var cellsBuffer: [[CellState]] = Array(repeating: Array(repeating: .dead, count: rows), count: columns)
         
         for column in 0..<columns {
             for row in 0..<rows {
@@ -88,32 +108,6 @@ class GameOfLife: ObservableObject {
         }
         
         return neighborsAlive.count
-    }
-    
-    
-    func clearCells() {
-        
-        for column in 0..<columns {
-            for row in 0..<rows {
-                cells[column][row] = .dead
-            }
-        }
-    }
-    
-    
-    func randomizeCells() {
-
-        for column in 0..<columns {
-            for row in 0..<rows {
-                cells[column][row] = Int.random(in: 0...4) == 0 ? .alive(age: 0) : .dead
-            }
-        }
-    }
-    
-    
-    func toggleCell(column: Int, row: Int) {
-        
-        cells[column][row] = cells[column][row].toggled
     }
     
     
