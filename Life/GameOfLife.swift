@@ -80,7 +80,7 @@ class GameOfLife: ObservableObject {
         
         let neighborsAlive = neighbors.filter { neighbor in
             switch neighbor {
-            case .alive(age: _):
+            case .alive:
                 return true
             case .dead:
                 return false
