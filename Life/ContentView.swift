@@ -66,14 +66,14 @@ struct ContentView_Previews: PreviewProvider {
        
         let game: GameOfLifeViewModel = {
             
-            let game = GameOfLifeViewModel(model: GameOfLife(columns: 50, rows: 80))
-       
-            game.handleEvent(event: .randomizeButtonPressed)
+            let model =  GameOfLife(columns: 50, rows: 80)
+            model.randomizeCells()
             
-            for _ in 0..<30 {
-                game.handleEvent(event: .stepButtonPressed)
+            for _ in 0..<10 {
+                model.step()
             }
-            return game
+            
+            return GameOfLifeViewModel(model: model)
         }()
 
         ContentView(game: game)
