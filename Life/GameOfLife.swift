@@ -30,6 +30,20 @@ class GameOfLife: ObservableObject {
     }
     
     
+    func step() {
+        
+        var cellsBuffer: [[CellState]] = Array(repeating: Array(repeating: .dead, count: rows), count: columns)
+        
+        for column in 0..<columns {
+            for row in 0..<rows {
+                cellsBuffer[column][row] = nextState(column: column, row: row)
+            }
+        }
+        
+        cells = cellsBuffer
+    }
+    
+    
     func clearCells() {
         
         for column in 0..<columns {
@@ -56,35 +70,22 @@ class GameOfLife: ObservableObject {
     }
     
     
-    func step() {
+    private func nextState(column: Int, row: Int) -> CellState {
         
-        func nextState(column: Int, row: Int) -> CellState {
-            
-            let numAlive = numNeighborsAlive(column: column, row: row)
-            
-            switch cells[column][row] {
-            case .alive(age: let age):
-                if [2, 3].contains(numAlive) {
-                    return .alive(age: age + 1)
-                }
-            case .dead:
-                if numAlive == 3 {
-                    return .alive(age: 0)
-                }
+        let numAlive = numNeighborsAlive(column: column, row: row)
+        
+        switch cells[column][row] {
+        case .alive(age: let age):
+            if [2, 3].contains(numAlive) {
+                return .alive(age: age + 1)
             }
-            
-            return .dead
-        }
-        
-        var cellsBuffer: [[CellState]] = Array(repeating: Array(repeating: .dead, count: rows), count: columns)
-        
-        for column in 0..<columns {
-            for row in 0..<rows {
-                cellsBuffer[column][row] = nextState(column: column, row: row)
+        case .dead:
+            if numAlive == 3 {
+                return .alive(age: 0)
             }
         }
         
-        cells = cellsBuffer
+        return .dead
     }
     
     
