@@ -12,91 +12,69 @@ import Combine
 
 class GameOfLifeViewModel: ObservableObject {
     
-    let rows = 80
-    let columns = 50
-    
-    let generationMillis = 100
-    
-    private var looper: Util.Looper!
-    private var game: GameOfLife!
-    
+    private var model: GameOfLife
+    private var cancellables = Set<AnyCancellable>()
+
     @Published var cells: [[GameOfLife.CellState]]!
-    
-    
-    init() {
-        game = GameOfLife(rows: rows, columns: columns)
-        cells = game.cells
 
-        looper = Util.Looper(loopTimeMillis: generationMillis) {
-            self.step()
+    var columns: Int { model.columns }
+    var rows: Int { model.rows }
+
+    private var timer: AnyCancellable?
+    private let updateInterval: TimeInterval = 0.2
+    
+    
+    init(model: GameOfLife) {
+        
+        self.model = model
+
+        cells = model.cells
+        
+        model.$cells
+            .receive(on: RunLoop.main)
+            .assign(to: \.cells, on: self)
+            .store(in: &cancellables)
+    }
+    
+    
+    enum Event {
+        
+        case startButtonPressed
+        case stopButtonPressed
+        
+        case stepButtonPressed
+        case clearButtonPressed
+        case randomizeButtonPressed
+        
+        case cellTapped(column: Int, row: Int)
+    }
+    
+    
+    func handleEvent(event: Event) {
+        
+        switch event {
+            case .startButtonPressed:
+                timer = Timer.publish(every: updateInterval, on: .main, in: .common)
+                    .autoconnect()
+                    .sink { [weak self] _ in
+                        self?.model.step()
+                }
+
+            case .stopButtonPressed:
+                timer?.cancel()
+                timer = nil
+
+            case .stepButtonPressed:
+                model.step()
+                
+            case .clearButtonPressed:
+                model.clearCells()
+                
+            case .randomizeButtonPressed:
+                model.randomizeCells()
+            
+            case .cellTapped(let column, let row):
+                model.toggleCell(column: column, row: row)
         }
-    }
-
-    
-    func start() {
-        looper.resume()
-    }
-    
-    
-    func stop() {
-        looper.pause()
-    }
-    
-    
-    func step() {
-        game.step()
-        cells = game.cells
-    }
-
-    
-    func toggleCell(row: Int, column: Int) {
-        setCell(row: row, column: column, state: game[row, column].toggled)
-    }
-
-    
-    func clear() {
-        setCells(deadCells())
-    }
-    
-    
-    func randomize() {
-        setCells(randomCells())
-    }
-    
-    
-    private func setCell(row: Int, column: Int, state: GameOfLife.CellState) {
-        game[row, column] = state
-        cells = game.cells
-    }
-    
-    
-    private func setCells(_ cells: [[GameOfLife.CellState]]) {
-        
-        for row in 0..<rows {
-            for column in 0..<columns {
-                game[row, column] = cells[row][column]
-            }
-        }
-        
-        self.cells = game.cells
-    }
-    
-
-    private func deadCells() -> [[GameOfLife.CellState]] {
-        return Array(repeating: Array(repeating: .dead, count: columns), count: rows)
-    }
-    
-    
-    private func randomCells() -> [[GameOfLife.CellState]] {
-        
-        var cells = deadCells()
-        
-        for row in 0..<rows {
-            for column in 0..<columns {
-                cells[row][column] = Int.random(in: 0...4) == 0 ? .alive(age: 0) : .dead
-            }
-        }
-
-        return cells
     }
 }

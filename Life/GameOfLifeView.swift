@@ -15,14 +15,14 @@ struct GameOfLifeView: View {
     
     var body: some View {
         
-        VStack(spacing: 0) {
-            ForEach((0..<game.rows), id: \.self) { row in
+        HStack(spacing: 0) {
+            ForEach((0..<game.columns), id: \.self) { column in
                 
-                HStack(spacing: 0) {
-                    ForEach((0..<game.columns), id: \.self) { column in
+                VStack(spacing: 0) {
+                    ForEach((0..<game.rows), id: \.self) { row in
                         
-                        CellView(state: game.cells[row][column]) {
-                            game.toggleCell(row: row, column: column)
+                        CellView(state: game.cells[column][row]) {
+                            game.handleEvent(event: .cellTapped(column: column, row: row))
                         }
                     }
                 }

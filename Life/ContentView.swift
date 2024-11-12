@@ -23,11 +23,11 @@ struct ContentView: View {
                 GameOfLifeView(game: game)
                 
                 HStack() {
-                    Button("Run") { game.start() }
-                    Button("Stop") { game.stop() }
-                    Button("Step") { game.step() }
-                    Button("Random") { game.randomize() }
-                    Button("Clear") { game.clear() }
+                    Button("Run") { game.handleEvent(event: .startButtonPressed) }
+                    Button("Stop") { game.handleEvent(event: .stopButtonPressed) }
+                    Button("Step") { game.handleEvent(event: .stepButtonPressed) }
+                    Button("Random") { game.handleEvent(event: .randomizeButtonPressed) }
+                    Button("Clear") { game.handleEvent(event: .clearButtonPressed) }
                 }
                 .padding(10)
             }
@@ -65,10 +65,13 @@ struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
        
         let game: GameOfLifeViewModel = {
-            let game = GameOfLifeViewModel()
-            game.randomize()
+            
+            let game = GameOfLifeViewModel(model: GameOfLife(columns: 50, rows: 80))
+       
+            game.handleEvent(event: .randomizeButtonPressed)
+            
             for _ in 0..<30 {
-                game.step()
+                game.handleEvent(event: .stepButtonPressed)
             }
             return game
         }()
