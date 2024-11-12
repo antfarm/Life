@@ -39,6 +39,25 @@ class GameOfLife: ObservableObject {
     
     func step() {
         
+        func nextState(column: Int, row: Int) -> CellState {
+            
+            let cellState = cells[column][row]
+            let numAlive = numNeighborsAlive(column: column, row: row)
+            
+            switch cellState {
+            case .alive(age: let age):
+                if [2, 3].contains(numAlive) {
+                    return .alive(age: age + 1)
+                }
+            case .dead:
+                if numAlive == 3 {
+                    return .alive(age: 0)
+                }
+            }
+            
+            return .dead
+        }
+        
         for column in 0..<columns {
             for row in 0..<rows {
                 cellsBuffer[column][row] = nextState(column: column, row: row)
@@ -46,26 +65,6 @@ class GameOfLife: ObservableObject {
         }
         
         cells = cellsBuffer
-    }
-    
-    
-    private func nextState(column: Int, row: Int) -> CellState {
-        
-        let cellState = cells[column][row]
-        let numAlive = numNeighborsAlive(column: column, row: row)
-        
-        switch cellState {
-        case .alive(age: let age):
-            if [2, 3].contains(numAlive) {
-                return .alive(age: age + 1)
-            }
-        case .dead:
-            if numAlive == 3 {
-                return .alive(age: 0)
-            }
-        }
-        
-        return .dead
     }
     
     
