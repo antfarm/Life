@@ -20,8 +20,9 @@ struct ContentView: View {
             
             VStack() {
 
-                GameOfLifeView(game: game)
-                
+                GameOfLifeView()
+                    .padding(5)
+
                 HStack() {
                     Button("Run", .startButtonPressed)
                     Button("Stop", .stopButtonPressed)
