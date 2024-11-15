@@ -10,7 +10,7 @@ import SwiftUI
 
 struct ContentView: View {
     
-    @StateObject var game: GameOfLifeViewModel
+    @StateObject var viewModel: GameOfLifeViewModel
     
     
     var body: some View {
@@ -33,14 +33,14 @@ struct ContentView: View {
                 .padding(10)
             }
         }
-        .environmentObject(game)
+        .environmentObject(viewModel)
     }
 }
 
 
 struct Button: View {
 
-    @EnvironmentObject var game: GameOfLifeViewModel
+    @EnvironmentObject var viewModel: GameOfLifeViewModel
     
     private let text: String
     private let event: GameOfLifeViewModel.Event
@@ -53,7 +53,7 @@ struct Button: View {
     var body: some View {
     
         return SwiftUI.Button(action: {
-            game.handleEvent(event: event)
+            viewModel.handleEvent(event: event)
         }, label: {
             Text(text)
                 .bold()
@@ -75,8 +75,8 @@ struct ContentView_Previews: PreviewProvider {
             return m
         }()
 
-        let game = GameOfLifeViewModel(model: model)
+        let viewModel = GameOfLifeViewModel(model: model)
         
-        ContentView(game: game)
+        ContentView(viewModel: viewModel)
     }
 }

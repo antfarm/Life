@@ -10,19 +10,19 @@ import SwiftUI
 
 struct GameOfLifeView: View {
     
-    @EnvironmentObject var game: GameOfLifeViewModel
+    @EnvironmentObject var viewModel: GameOfLifeViewModel
     
     
     var body: some View {
         
         HStack(spacing: 0) {
-            ForEach((0..<game.columns), id: \.self) { column in
+            ForEach((0..<viewModel.columns), id: \.self) { column in
                 
                 VStack(spacing: 0) {
-                    ForEach((0..<game.rows), id: \.self) { row in
+                    ForEach((0..<viewModel.rows), id: \.self) { row in
                         
-                        CellView(state: game.cells[column][row]) {
-                            game.handleEvent(event: .cellTapped(column: column, row: row))
+                        CellView(state: viewModel.cells[column][row]) {
+                            viewModel.handleEvent(event: .cellTapped(column: column, row: row))
                         }
                     }
                 }

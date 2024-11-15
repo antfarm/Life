@@ -13,10 +13,10 @@ struct LifeApp: App {
     var body: some Scene {
         
         let model = GameOfLife(columns: 50, rows: 80)
-        let game = GameOfLifeViewModel(model: model)
+        let viewModel = GameOfLifeViewModel(model: model)
 
         WindowGroup {
-            ContentView(game: game)
+            ContentView(viewModel: viewModel)
                 .statusBar(hidden: true)
         }
     }
