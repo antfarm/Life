@@ -51,20 +51,32 @@ class GameOfLifeViewModel {
     }
     
     
+    private(set) var isAnimating = false {
+        willSet {
+            switch newValue {
+                case true:
+                    timer = Timer.publish(every: updateInterval, on: .main, in: .common)
+                        .autoconnect()
+                        .sink { [weak self] _ in
+                            self?.model.step()
+                        }
+                case false:
+                    timer?.cancel()
+                    timer = nil
+            }
+        }
+    }
+    
+
     func handleEvent(event: Event) {
         
         switch event {
             case .startButtonPressed:
-                timer = Timer.publish(every: updateInterval, on: .main, in: .common)
-                    .autoconnect()
-                    .sink { [weak self] _ in
-                        self?.model.step()
-                }
-
+                isAnimating = true
+                
             case .stopButtonPressed:
-                timer?.cancel()
-                timer = nil
-
+                isAnimating = false
+                
             case .stepButtonPressed:
                 model.step()
                 
