@@ -32,43 +32,25 @@ class GameOfLife: ObservableObject {
     
     func step() {
         
-        var cellsBuffer: [[CellState]] = Array(repeating: Array(repeating: .dead, count: rows), count: columns)
-        
-        for column in 0..<columns {
-            for row in 0..<rows {
-                cellsBuffer[column][row] = nextState(column: column, row: row)
-            }
+        applyToAllCells { column, row in
+            nextState(column: column, row: row)
         }
-        
-        cells = cellsBuffer
     }
     
     
     func clearCells() {
         
-        var cellsBuffer: [[CellState]] = Array(repeating: Array(repeating: .dead, count: rows), count: columns)
-
-        for column in 0..<columns {
-            for row in 0..<rows {
-                cellsBuffer[column][row] = .dead
-            }
+        applyToAllCells { _, _ in
+            .dead
         }
-        
-        cells = cellsBuffer
     }
     
     
     func randomizeCells() {
 
-        var cellsBuffer: [[CellState]] = Array(repeating: Array(repeating: .dead, count: rows), count: columns)
-
-        for column in 0..<columns {
-            for row in 0..<rows {
-                cellsBuffer[column][row] = Int.random(in: 0...4) == 0 ? .alive(age: 0) : .dead
-            }
+        applyToAllCells { _, _ in
+            Int.random(in: 0...4) == 0 ? .alive(age: 0) : .dead
         }
-        
-        cells = cellsBuffer
     }
     
     
@@ -120,6 +102,20 @@ class GameOfLife: ObservableObject {
     }
     
     
+    private func applyToAllCells(_ newState: (Int, Int) -> CellState) {
+        
+        var cellsBuffer: [[CellState]] = Array(repeating: Array(repeating: .dead, count: rows), count: columns)
+        
+        for column in 0..<columns {
+            for row in 0..<rows {
+                cellsBuffer[column][row] = newState(column, row)
+            }
+        }
+        
+        cells = cellsBuffer
+    }
+
+
     func printCells() {
         
         for column in 0..<columns {
