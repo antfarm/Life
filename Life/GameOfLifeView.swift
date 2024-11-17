@@ -10,7 +10,7 @@ import SwiftUI
 
 struct GameOfLifeView: View {
     
-    @EnvironmentObject var viewModel: GameOfLifeViewModel
+    @Environment(GameOfLifeViewModel.self) var viewModel
     
     
     var body: some View {

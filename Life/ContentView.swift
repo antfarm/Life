@@ -10,7 +10,7 @@ import SwiftUI
 
 struct ContentView: View {
     
-    @StateObject var viewModel: GameOfLifeViewModel
+    @State var viewModel: GameOfLifeViewModel
     
     
     var body: some View {
@@ -33,14 +33,14 @@ struct ContentView: View {
                 .padding(10)
             }
         }
-        .environmentObject(viewModel)
+        .environment(viewModel)
     }
 }
 
 
 struct Button: View {
 
-    @EnvironmentObject var viewModel: GameOfLifeViewModel
+    @Environment(GameOfLifeViewModel.self) var viewModel
     
     private let text: String
     private let event: GameOfLifeViewModel.Event

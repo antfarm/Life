@@ -5,17 +5,18 @@
 //  Created by sean on 29.11.20.
 //
 
-import Foundation
-import SwiftUI
 import Combine
+import Observation
+import SwiftUI
 
 
-class GameOfLifeViewModel: ObservableObject {
+@Observable
+class GameOfLifeViewModel {
     
     var columns: Int { model.columns }
     var rows: Int { model.rows }
 
-    @Published private(set) var cells: [[GameOfLife.CellState]]!
+    private(set) var cells: [[GameOfLife.CellState]]!
 
     private var model: GameOfLife
     private var cancellables = Set<AnyCancellable>()
