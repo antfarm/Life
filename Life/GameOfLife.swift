@@ -18,7 +18,7 @@ class GameOfLife: ObservableObject {
     let columns: Int!
     let rows: Int!
 
-    @Published var cells: [[CellState]]!
+    @Published private(set) var cells: [[CellState]]!
     
     
     init(columns: Int, rows: Int) {

@@ -15,7 +15,7 @@ class GameOfLifeViewModel: ObservableObject {
     var columns: Int { model.columns }
     var rows: Int { model.rows }
 
-    @Published var cells: [[GameOfLife.CellState]]!
+    @Published private(set) var cells: [[GameOfLife.CellState]]!
 
     private var model: GameOfLife
     private var cancellables = Set<AnyCancellable>()
