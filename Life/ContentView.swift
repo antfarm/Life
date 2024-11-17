@@ -24,13 +24,14 @@ struct ContentView: View {
                     .padding(5)
 
                 HStack() {
-                    Button("Run", .startButtonPressed)
-                    Button("Stop", .stopButtonPressed)
-                    Button("Step", .stepButtonPressed)
-                    Button("Random", .randomizeButtonPressed)
-                    Button("Clear", .clearButtonPressed)
+                    Button("Run", .startButtonPressed, !viewModel.isAnimating)
+                    Button("Stop", .stopButtonPressed, viewModel.isAnimating)
+                    Button("Step", .stepButtonPressed, !viewModel.isAnimating)
+                    Button("Random", .randomizeButtonPressed, !viewModel.isAnimating)
+                    Button("Clear", .clearButtonPressed, !viewModel.isAnimating)
                 }
                 .padding(10)
+                .fixedSize(horizontal: false, vertical: true)
             }
         }
         .environment(viewModel)
@@ -44,10 +45,12 @@ struct Button: View {
     
     private let text: String
     private let event: GameOfLifeViewModel.Event
+    private let disabled: Bool
     
-    init(_ text: String, _ event: GameOfLifeViewModel.Event) {
+    init(_ text: String, _ event: GameOfLifeViewModel.Event, _ enabled: Bool = false) {
         self.text = text
         self.event = event
+        self.disabled = !enabled
     }
     
     var body: some View {
@@ -56,10 +59,13 @@ struct Button: View {
             viewModel.handleEvent(event: event)
         }, label: {
             Text(text)
-                .bold()
-                .padding(10)
-                .foregroundColor(Color.gray)
+                .font(.system(size: 15))
+                .fontWeight(disabled ? .regular : .bold)
+                .foregroundColor(disabled ? .gray : .white)
         })
+        .disabled(disabled)
+        .frame(height: 36)
+        .frame(maxWidth: .infinity)
     }
 }
 
