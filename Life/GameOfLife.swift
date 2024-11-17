@@ -46,21 +46,29 @@ class GameOfLife: ObservableObject {
     
     func clearCells() {
         
+        var cellsBuffer: [[CellState]] = Array(repeating: Array(repeating: .dead, count: rows), count: columns)
+
         for column in 0..<columns {
             for row in 0..<rows {
-                cells[column][row] = .dead
+                cellsBuffer[column][row] = .dead
             }
         }
+        
+        cells = cellsBuffer
     }
     
     
     func randomizeCells() {
 
+        var cellsBuffer: [[CellState]] = Array(repeating: Array(repeating: .dead, count: rows), count: columns)
+
         for column in 0..<columns {
             for row in 0..<rows {
-                cells[column][row] = Int.random(in: 0...4) == 0 ? .alive(age: 0) : .dead
+                cellsBuffer[column][row] = Int.random(in: 0...4) == 0 ? .alive(age: 0) : .dead
             }
         }
+        
+        cells = cellsBuffer
     }
     
     
