@@ -55,14 +55,9 @@ class GameOfLifeViewModel {
         willSet {
             switch newValue {
                 case true:
-                    timer = Timer.publish(every: updateInterval, on: .main, in: .common)
-                        .autoconnect()
-                        .sink { [weak self] _ in
-                            self?.model.step()
-                        }
+                    startAnimation()
                 case false:
-                    timer?.cancel()
-                    timer = nil
+                    stopAnimation()
             }
         }
     }
@@ -89,5 +84,22 @@ class GameOfLifeViewModel {
             case .cellTapped(let column, let row):
                 model.toggleCell(column: column, row: row)
         }
+    }
+    
+    
+    private func startAnimation() {
+        
+        timer = Timer.publish(every: updateInterval, on: .main, in: .common)
+            .autoconnect()
+            .sink { [weak self] _ in
+                self?.model.step()
+            }
+    }
+    
+    
+    private func stopAnimation() {
+        
+        timer?.cancel()
+        timer = nil
     }
 }
