@@ -15,10 +15,10 @@ struct GameOfLifeView: View {
     
     var body: some View {
         
-        HStack(spacing: 0) {
+        HStack(spacing: 1) {
             ForEach((0..<viewModel.columns), id: \.self) { column in
                 
-                VStack(spacing: 0) {
+                VStack(spacing: 1) {
                     ForEach((0..<viewModel.rows), id: \.self) { row in
                         
                         CellView(state: viewModel.cells[column][row]) {
