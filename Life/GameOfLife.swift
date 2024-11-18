@@ -15,10 +15,10 @@ class GameOfLife: ObservableObject {
         case dead
     }
 
-    let columns: Int!
-    let rows: Int!
+    let columns: Int
+    let rows: Int
 
-    @Published private(set) var cells: [[CellState]]!
+    @Published private(set) var cells: [[CellState]]
     
     
     init(columns: Int, rows: Int) {
