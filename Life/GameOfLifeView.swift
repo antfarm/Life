@@ -21,9 +21,10 @@ struct GameOfLifeView: View {
                 VStack(spacing: 1) {
                     ForEach((0..<viewModel.rows), id: \.self) { row in
                         
-                        CellView(state: viewModel.cells[column][row]) {
-                            viewModel.handleEvent(event: .cellTapped(column: column, row: row))
-                        }
+                        CellView(state: viewModel.cells[column][row])
+                            .onTapGesture {
+                                viewModel.handleEvent(event: .cellTapped(column: column, row: row))
+                            }
                     }
                 }
             }
@@ -35,7 +36,6 @@ struct GameOfLifeView: View {
 struct CellView: View {
     
     let state: GameOfLife.CellState
-    let onTap: () -> Void
     
     
     var body: some View {
@@ -61,8 +61,5 @@ struct CellView: View {
         Circle()
             .fill(color)
             .opacity(opacity)
-            .onTapGesture() {
-                onTap()
-            }
     }
 }
