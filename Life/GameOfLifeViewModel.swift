@@ -42,11 +42,9 @@ class GameOfLifeViewModel {
         
         case startButtonPressed
         case stopButtonPressed
-        
         case stepButtonPressed
         case clearButtonPressed
         case randomizeButtonPressed
-        
         case cellTapped(column: Int, row: Int)
     }
     
@@ -54,10 +52,10 @@ class GameOfLifeViewModel {
     private(set) var isAnimating = false {
         willSet {
             switch newValue {
-                case true:
-                    startAnimation()
-                case false:
-                    stopAnimation()
+            case true:
+                startAnimation()
+            case false:
+                stopAnimation()
             }
         }
     }
@@ -66,23 +64,18 @@ class GameOfLifeViewModel {
     func handleEvent(event: Event) {
         
         switch event {
-            case .startButtonPressed:
-                isAnimating = true
-                
-            case .stopButtonPressed:
-                isAnimating = false
-                
-            case .stepButtonPressed:
-                model.step()
-                
-            case .clearButtonPressed:
-                model.clearCells()
-                
-            case .randomizeButtonPressed:
-                model.randomizeCells()
-            
-            case .cellTapped(let column, let row):
-                model.toggleCell(column: column, row: row)
+        case .startButtonPressed:
+            isAnimating = true
+        case .stopButtonPressed:
+            isAnimating = false
+        case .stepButtonPressed:
+            model.step()
+        case .clearButtonPressed:
+            model.clearCells()
+        case .randomizeButtonPressed:
+            model.randomizeCells()
+        case .cellTapped(let column, let row):
+            model.toggleCell(column: column, row: row)
         }
     }
     

@@ -121,10 +121,10 @@ class GameOfLife: ObservableObject {
         for column in 0..<columns {
             for row in 0..<rows {
                 switch cells[column][row] {
-                    case .alive(let age):
-                        print(age, terminator: "")
-                    case .dead:
-                        print(".", terminator: "")
+                case .alive(let age):
+                    print(age, terminator: "")
+                case .dead:
+                    print(".", terminator: "")
                 }
             }
             

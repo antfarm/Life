@@ -47,11 +47,13 @@ struct Button: View {
     private let event: GameOfLifeViewModel.Event
     private let disabled: Bool
     
+    
     init(_ text: String, _ event: GameOfLifeViewModel.Event, _ enabled: Bool = false) {
         self.text = text
         self.event = event
         self.disabled = !enabled
     }
+    
     
     var body: some View {
     
