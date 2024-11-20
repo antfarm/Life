@@ -30,7 +30,7 @@
 	<key>UILaunchScreen</key>
 	<dict>
 		<key>UIImageName</key>
-		<string></string>
+		<string>LaunchScreenImage</string>
 		<key>UIColorName</key>
 		<string>LaunchScreenColor</string>
 	</dict>
