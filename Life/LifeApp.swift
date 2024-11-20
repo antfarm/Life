@@ -12,7 +12,13 @@ struct LifeApp: App {
     
     var body: some Scene {
         
-        let model = GameOfLife(columns: 50, rows: 80)
+        let model: GameOfLife = {
+            let m = GameOfLife(columns: 50, rows: 80)
+            m.randomizeCells()
+            for _ in 0..<20 { m.step() }
+            return m
+        }()
+
         let viewModel = GameOfLifeViewModel(model: model)
 
         WindowGroup {
