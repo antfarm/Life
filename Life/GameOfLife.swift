@@ -81,16 +81,12 @@ class GameOfLife: ObservableObject {
     
     private func numNeighborsAlive(column: Int, row: Int) -> Int {
         
-        let neighborhood: [(Int, Int)] = [(-1, -1), (0, -1), (1, -1),
-                                          (-1,  0),          (1,  0),
-                                          (-1,  1), (0,  1), (1,  1)]
-        
-        let neighbors: [CellState] = neighborhood.map {
-            cells[(column + $0 + columns) % columns][(row + $1 + rows) % rows]
+        let neighborCells = neighborhood(column: column, row: row).map { (column, row) in
+            cells[column][row]
         }
         
-        let neighborsAlive = neighbors.filter { neighbor in
-            switch neighbor {
+        let neighborsAlive = neighborCells.filter { cell in
+            switch cell {
             case .alive:
                 return true
             case .dead:
@@ -102,6 +98,28 @@ class GameOfLife: ObservableObject {
     }
     
     
+    private func neighborhood(column: Int, row: Int) -> [(Int, Int)] {
+        
+        return neighborhoods[column][row]
+    }
+    
+    
+    private lazy var neighborhoods: [[[(Int, Int)]]] = {
+
+        let relativeNeighborhood: [(Int, Int)] = [(-1, -1), (0, -1), (1, -1),
+                                                  (-1,  0),          (1,  0),
+                                                  (-1,  1), (0,  1), (1,  1)]
+        
+        return Array(0..<columns).map { column in
+            Array(0..<rows).map { row in
+                relativeNeighborhood.map { (dx, dy) in
+                    ((column + dx + columns) % columns, (row + dy + rows) % rows)
+                }
+            }
+        }
+    }()
+        
+
     private func applyToAllCells(_ newState: (Int, Int) -> CellState) {
         
         var cellsBuffer: [[CellState]] = Array(repeating: Array(repeating: .dead, count: rows), count: columns)
