@@ -15,51 +15,41 @@ struct GameOfLifeView: View {
     
     var body: some View {
         
-        HStack(spacing: 1) {
-            ForEach((0..<viewModel.columns), id: \.self) { column in
+        GeometryReader { geometry in
+            
+            let cellSize = CGSize(width: geometry.size.width / CGFloat(viewModel.columns),
+                                  height: geometry.size.height / CGFloat(viewModel.rows))
+            
+            Canvas { context, size in
                 
-                VStack(spacing: 1) {
-                    ForEach((0..<viewModel.rows), id: \.self) { row in
+                for column in 0..<viewModel.columns {
+                    for row in 0..<viewModel.rows {
                         
-                        CellView(state: viewModel.cells[column][row])
-                            .onTapGesture {
-                                viewModel.handleEvent(event: .cellTapped(column: column, row: row))
-                            }
+                        let state = viewModel.cells[column][row]
+                        
+                        guard case .alive(let age) = state else { continue }
+                            
+                        let rect = CGRect(x: CGFloat(column) * cellSize.width,
+                                          y: CGFloat(row) * cellSize.height,
+                                          width: cellSize.width,
+                                          height: cellSize.height)
+                        
+                        let opacity = Double(10 - min(age, 6)) / 10.0
+                        let color = Color.yellow.opacity(opacity)
+                        
+                        context.fill(Path(ellipseIn: rect), with: .color(color))
                     }
                 }
             }
+            .onTapGesture { location in
+
+                let column = Int(location.x / cellSize.width)
+                let row = Int(location.y / cellSize.height)
+                
+                guard (0..<viewModel.columns).contains(column) && (0..<viewModel.rows).contains(row) else { return }
+                    
+                viewModel.handleEvent(event: .cellTapped(column: column, row: row))
+            }
         }
-    }
-}
-
-
-struct CellView: View {
-    
-    let state: GameOfLife.CellState
-    
-    
-    var body: some View {
-        
-        let opacity: Double = {
-            switch state {
-            case .alive(age: let age):
-                return Double(10 - min(age, 6)) / 10.0
-            case .dead:
-                return 1
-            }
-        }()
-        
-        let color: Color = {
-            switch state {
-            case .alive:
-                return .yellow
-            case .dead:
-                return .black
-            }
-        }()
-        
-        Circle()
-            .fill(color)
-            .opacity(opacity)
     }
 }

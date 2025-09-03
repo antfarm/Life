@@ -22,7 +22,7 @@ class GameOfLifeViewModel {
     private var cancellables = Set<AnyCancellable>()
 
     private var timer: AnyCancellable?
-    private let updateInterval: TimeInterval = 0.2
+    private let updateInterval: TimeInterval = 0.05
     
     
     init(model: GameOfLife) {
