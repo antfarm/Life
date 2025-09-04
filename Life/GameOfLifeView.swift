@@ -27,17 +27,18 @@ struct GameOfLifeView: View {
                         
                         let state = viewModel.cells[column][row]
                         
-                        guard case .alive(let age) = state else { continue }
+                        guard case .alive(let age, let type) = state else { continue }
                             
                         let rect = CGRect(x: CGFloat(column) * cellSize.width,
                                           y: CGFloat(row) * cellSize.height,
                                           width: cellSize.width,
                                           height: cellSize.height)
                         
+                        let color = type == .a ? Color.yellow : Color.red
                         let opacity = Double(10 - min(age, 6)) / 10.0
-                        let color = Color.yellow.opacity(opacity)
                         
-                        context.fill(Path(ellipseIn: rect), with: .color(color))
+                        context.fill(Path(ellipseIn: rect), with: .color(color.opacity(opacity)))
+
                     }
                 }
             }

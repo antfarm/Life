@@ -10,11 +10,40 @@ import Foundation
 
 class GameOfLife: ObservableObject {
 
-    enum CellState {
-        case alive(age: Int)
-        case dead
+    enum CellType {
+        
+        case a
+        case b
+        
+        static func random() -> Self {
+            Int.random(in: 0...1) == 0 ? .a : .b
+        }
     }
 
+    
+    enum CellState {
+        
+        case alive(age: Int, type: CellType)
+        case dead
+        
+        static func random(percentAlive: Int) -> Self {
+            Int.random(in: 0..<100) < percentAlive
+                ? .alive(age: 0, type: CellType.random())
+                : .dead
+        }
+        
+        func toggled() -> Self {
+            switch self {
+            case .alive(_, _):
+                return .dead
+            case .dead:
+                return .alive(age: 0, type: CellType.random())
+            }
+        }
+
+    }
+
+    
     let columns: Int
     let rows: Int
 
@@ -49,29 +78,30 @@ class GameOfLife: ObservableObject {
     func randomizeCells() {
 
         applyToAllCells { _, _ in
-            Int.random(in: 0...4) == 0 ? .alive(age: 0) : .dead
+            CellState.random(percentAlive: 25)
         }
     }
     
     
     func toggleCell(column: Int, row: Int) {
         
-        cells[column][row] = cells[column][row].toggled
+        cells[column][row] = cells[column][row].toggled()
     }
     
     
     private func nextState(column: Int, row: Int) -> CellState {
         
-        let numAlive = numNeighborsAlive(column: column, row: row)
-        
+        let (typeACount, typeBCount) = countNeighbors(column: column, row: row)
+        let aliveCount = typeACount + typeBCount
+
         switch cells[column][row] {
-        case .alive(age: let age):
-            if [2, 3].contains(numAlive) {
-                return .alive(age: age + 1)
+        case .alive(age: let age, type: let type):
+            if [2, 3].contains(aliveCount) {
+                return .alive(age: age + 1, type: type)
             }
         case .dead:
-            if numAlive == 3 {
-                return .alive(age: 0)
+            if aliveCount == 3 {
+                return .alive(age: 0, type: typeBCount > typeACount ? .b : .a )
             }
         }
         
@@ -79,28 +109,38 @@ class GameOfLife: ObservableObject {
     }
     
     
-    private func numNeighborsAlive(column: Int, row: Int) -> Int {
+    private func countNeighbors(column: Int, row: Int) -> (Int, Int) {
+
+        let neighbors = neighborCells(column: column, row: row)
+        
+        let neighborsAlive = neighbors.filter {
+            if case .alive = $0 { return true } else { return false }
+        }
+        
+        let neighborsTypeA = neighborsAlive.filter {
+            if case .alive(_, .a) = $0 { return true } else { return false }
+        }
+        
+        let typeACount = neighborsTypeA.count
+        let typeBCount = neighborsAlive.count - typeACount
+        
+        return (typeACount, typeBCount)
+    }
+    
+    
+    private func neighborCells(column: Int, row: Int) -> [CellState] {
         
         let neighborhood: [(Int, Int)] = [(-1, -1), (0, -1), (1, -1),
                                           (-1,  0),          (1,  0),
                                           (-1,  1), (0,  1), (1,  1)]
         
-        let neighbors: [CellState] = neighborhood.map {
+        let neighbors = neighborhood.map {
             cells[(column + $0 + columns) % columns][(row + $1 + rows) % rows]
         }
         
-        let neighborsAlive = neighbors.filter { neighbor in
-            switch neighbor {
-            case .alive:
-                return true
-            case .dead:
-                return false
-            }
-        }
-        
-        return neighborsAlive.count
+        return neighbors
     }
-    
+        
     
     private func applyToAllCells(_ newState: (Int, Int) -> CellState) {
         
@@ -121,27 +161,16 @@ class GameOfLife: ObservableObject {
         for column in 0..<columns {
             for row in 0..<rows {
                 switch cells[column][row] {
-                case .alive(let age):
-                    print(age, terminator: "")
+                case .alive(_, .a):
+                    print("A", terminator: "")
+                case .alive(_, .b):
+                    print("B", terminator: "")
                 case .dead:
                     print(".", terminator: "")
                 }
             }
             
             print()
-        }
-    }
-}
-
-
-extension GameOfLife.CellState {
-    
-    var toggled: Self {
-        switch self {
-        case .alive(age: _):
-            return .dead
-        case .dead:
-            return .alive(age: 0)
         }
     }
 }
