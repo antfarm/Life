@@ -72,19 +72,16 @@ struct Button: View {
 }
 
 
-struct ContentView_Previews: PreviewProvider {
-
-    static var previews: some View {
+#Preview {
        
-        let model: GameOfLife = {
-            let m = GameOfLife(columns: 50, rows: 80)
-            m.randomizeCells()
-            for _ in 0..<20 { m.step() }
-            return m
-        }()
+    let model: GameOfLife = {
+        let m = GameOfLife(columns: 50, rows: 80)
+        m.randomizeCells()
+        for _ in 0..<20 { m.step() }
+        return m
+    }()
 
-        let viewModel = GameOfLifeViewModel(model: model)
-        
-        ContentView(viewModel: viewModel)
-    }
+    let viewModel = GameOfLifeViewModel(model: model)
+
+    ContentView(viewModel: viewModel)
 }
