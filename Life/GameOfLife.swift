@@ -8,7 +8,8 @@
 import Foundation
 
 
-class GameOfLife: ObservableObject {
+@Observable
+class GameOfLife {
 
     enum CellType {
         
@@ -47,7 +48,7 @@ class GameOfLife: ObservableObject {
     let columns: Int
     let rows: Int
 
-    @Published private(set) var cells: [[CellState]]
+    private(set) var cells: [[CellState]]
     
     
     init(columns: Int, rows: Int) {

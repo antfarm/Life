@@ -16,10 +16,9 @@ class GameOfLifeViewModel {
     var columns: Int { model.columns }
     var rows: Int { model.rows }
 
-    private(set) var cells: [[GameOfLife.CellState]]
+    var cells: [[GameOfLife.CellState]] { model.cells }
 
     private var model: GameOfLife
-    private var cancellables = Set<AnyCancellable>()
 
     private var timer: AnyCancellable?
     private let updateInterval: TimeInterval = 0.05
@@ -28,13 +27,6 @@ class GameOfLifeViewModel {
     init(model: GameOfLife) {
         
         self.model = model
-
-        cells = model.cells
-        
-        model.$cells
-            .receive(on: RunLoop.main)
-            .assign(to: \.cells, on: self)
-            .store(in: &cancellables)
     }
     
     
