@@ -5,7 +5,6 @@
 //  Created by sean on 29.11.20.
 //
 
-import Combine
 import Observation
 import SwiftUI
 
@@ -20,8 +19,8 @@ class GameOfLifeViewModel {
 
     private var model: GameOfLife
 
-    private var timer: AnyCancellable?
-    private let updateInterval: TimeInterval = 0.05
+    private var loopTask: Task<Void, Never>?
+    private let updateInterval: Duration = .milliseconds(50)
     
     
     init(model: GameOfLife) {
@@ -65,11 +64,12 @@ class GameOfLifeViewModel {
 
     private func startAnimation() {
         
-        timer = Timer.publish(every: updateInterval, on: .main, in: .common)
-            .autoconnect()
-            .sink { [weak self] _ in
-                self?.model.step()
+        loopTask = Task { @MainActor in
+            while !Task.isCancelled && isAnimating {
+                model.step()
+                try? await Task.sleep(for: updateInterval)
             }
+        }
         
         isAnimating = true
     }
@@ -77,8 +77,8 @@ class GameOfLifeViewModel {
     
     private func stopAnimation() {
         
-        timer?.cancel()
-        timer = nil
+        loopTask?.cancel()
+        loopTask = nil
         
         isAnimating = false
     }
