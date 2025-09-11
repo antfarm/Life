@@ -37,8 +37,8 @@ struct GameOfLifeView: View {
                         let color = type == .a ? Color.yellow : Color.red
                         let opacity = Double(10 - min(age, 6)) / 10.0
                         
-                        context.fill(Path(ellipseIn: rect), with: .color(color.opacity(opacity)))
-
+                        context.opacity = opacity
+                        context.fill(Path(ellipseIn: rect), with: .color(color))
                     }
                 }
             }
