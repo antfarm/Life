@@ -39,6 +39,7 @@ class GameOfLifeViewModel {
     }
     
     
+    @MainActor
     func handleEvent(event: Event) {
         
         switch event {
@@ -61,9 +62,10 @@ class GameOfLifeViewModel {
     private(set) var isAnimating = false
     
 
+    @MainActor
     private func startAnimation() {
         
-        loopTask = Task { @MainActor in
+        loopTask = Task {
             while !Task.isCancelled && isAnimating {
                 model.step()
                 try? await Task.sleep(for: updateInterval)
@@ -74,6 +76,7 @@ class GameOfLifeViewModel {
     }
     
     
+    @MainActor
     private func stopAnimation() {
         
         loopTask?.cancel()
