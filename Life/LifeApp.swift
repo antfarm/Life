@@ -23,7 +23,7 @@ struct LifeApp: App {
 
         WindowGroup {
             ContentView(viewModel: viewModel)
-                .statusBar(hidden: true)
+                .statusBarHidden(true)
         }
     }
 }
