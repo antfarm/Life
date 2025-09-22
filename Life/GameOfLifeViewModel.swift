@@ -21,7 +21,9 @@ class GameOfLifeViewModel {
     private var loopTask: Task<Void, Never>?
     private let updateInterval: Duration = .milliseconds(50)
     
+    private(set) var isRunning = false
     
+
     init(model: GameOfLife) {
         
         self.model = model
@@ -44,9 +46,9 @@ class GameOfLifeViewModel {
         
         switch event {
         case .startButtonPressed:
-            startAnimation()
+            start()
         case .stopButtonPressed:
-            stopAnimation()
+            stop()
         case .stepButtonPressed:
             model.step()
         case .clearButtonPressed:
@@ -59,29 +61,26 @@ class GameOfLifeViewModel {
     }
     
     
-    private(set) var isAnimating = false
-    
-
     @MainActor
-    private func startAnimation() {
+    private func start() {
         
         loopTask = Task {
-            while !Task.isCancelled && isAnimating {
+            while !Task.isCancelled && isRunning {
                 model.step()
                 try? await Task.sleep(for: updateInterval)
             }
         }
         
-        isAnimating = true
+        isRunning = true
     }
     
     
     @MainActor
-    private func stopAnimation() {
+    private func stop() {
         
         loopTask?.cancel()
         loopTask = nil
         
-        isAnimating = false
+        isRunning = false
     }
 }

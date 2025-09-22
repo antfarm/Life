@@ -24,11 +24,11 @@ struct ContentView: View {
                     .padding(5)
 
                 HStack() {
-                    Button("play", .startButtonPressed, !viewModel.isAnimating)
-                    Button("stop", .stopButtonPressed, viewModel.isAnimating)
-                    Button("forward.frame", .stepButtonPressed, !viewModel.isAnimating)
-                    Button("dice", .randomizeButtonPressed, !viewModel.isAnimating)
-                    Button("clear", .clearButtonPressed, !viewModel.isAnimating)
+                    Button("play", .startButtonPressed, !viewModel.isRunning)
+                    Button("stop", .stopButtonPressed, viewModel.isRunning)
+                    Button("forward.frame", .stepButtonPressed, !viewModel.isRunning)
+                    Button("dice", .randomizeButtonPressed, !viewModel.isRunning)
+                    Button("clear", .clearButtonPressed, !viewModel.isRunning)
                 }
                 .padding(10)
                 .fixedSize(horizontal: false, vertical: true)
