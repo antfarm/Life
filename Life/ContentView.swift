@@ -24,11 +24,11 @@ struct ContentView: View {
                     .padding(5)
 
                 HStack() {
-                    Button("Run", .startButtonPressed, !viewModel.isAnimating)
-                    Button("Stop", .stopButtonPressed, viewModel.isAnimating)
-                    Button("Step", .stepButtonPressed, !viewModel.isAnimating)
-                    Button("Random", .randomizeButtonPressed, !viewModel.isAnimating)
-                    Button("Clear", .clearButtonPressed, !viewModel.isAnimating)
+                    Button("play", .startButtonPressed, !viewModel.isAnimating)
+                    Button("stop", .stopButtonPressed, viewModel.isAnimating)
+                    Button("forward.frame", .stepButtonPressed, !viewModel.isAnimating)
+                    Button("dice", .randomizeButtonPressed, !viewModel.isAnimating)
+                    Button("clear", .clearButtonPressed, !viewModel.isAnimating)
                 }
                 .padding(10)
                 .fixedSize(horizontal: false, vertical: true)
@@ -43,13 +43,13 @@ struct Button: View {
 
     @Environment(GameOfLifeViewModel.self) var viewModel
     
-    private let text: String
+    private let systemName: String
     private let event: GameOfLifeViewModel.Event
     private let disabled: Bool
     
     
-    init(_ text: String, _ event: GameOfLifeViewModel.Event, _ enabled: Bool = false) {
-        self.text = text
+    init(_ systemName: String, _ event: GameOfLifeViewModel.Event, _ enabled: Bool = false) {
+        self.systemName = systemName
         self.event = event
         self.disabled = !enabled
     }
@@ -60,8 +60,8 @@ struct Button: View {
         return SwiftUI.Button(action: {
             viewModel.handleEvent(event: event)
         }, label: {
-            Text(text)
-                .font(.system(size: 15))
+            Image(systemName: "\(systemName)\(disabled ? "" : ".fill")")
+                .font(.system(size: 24))
                 .fontWeight(disabled ? .regular : .bold)
                 .foregroundColor(disabled ? .gray : .white)
         })
