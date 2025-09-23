@@ -62,7 +62,7 @@ struct Button: View {
         }, label: {
             Image(systemName: "\(systemName)\(disabled ? "" : ".fill")")
                 .font(.system(size: 24))
-                .fontWeight(disabled ? .regular : .bold)
+                //.fontWeight(disabled ? .regular : .bold)
                 .foregroundColor(disabled ? .gray : .white)
         })
         .disabled(disabled)
