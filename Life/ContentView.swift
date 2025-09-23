@@ -25,8 +25,8 @@ struct ContentView: View {
 
                 HStack() {
                     Button("play", .startButtonPressed, !viewModel.isRunning)
-                    Button("stop", .stopButtonPressed, viewModel.isRunning)
                     Button("forward.frame", .stepButtonPressed, !viewModel.isRunning)
+                    Button("pause", .stopButtonPressed, viewModel.isRunning)
                     Button("dice", .randomizeButtonPressed, !viewModel.isRunning)
                     Button("clear", .clearButtonPressed, !viewModel.isRunning)
                 }
